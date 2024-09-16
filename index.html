@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
+    body, html {
+        font-family: "DM Sans", sans-serif;
+        font-optical-sizing: auto;
+
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    #webcam {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;       
+      pointer-events: none;
+      -webkit-app-region: drag; 
+      border-radius: 20px;
+      transform: scaleX(-1); /* Flip the webcam horizontally */
+    }
+
+    #controls {
+        position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    -webkit-app-region: no-drag;
+    user-select: none;
+
+    flex-direction: column-reverse;
+    }
+
+    button {
+      background-color: #FF590E;
+      user-select: none;
+      transition: all 0.2s linear;
+      color: #FFF;
+      font-weight: 600;
+      border: none;
+      padding: 4px 12px;
+      font-size: 14px;
+      line-height: 24px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #F81E00;
+    }
+
+    button:active {
+      background-color: #AF0C0C;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+      z-index: 10;
+      background-color: #121212;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      border-radius: 50%;
+      border: none;
+      -webkit-app-region: no-drag;  
+    }
+
+    #timer {
+      font-size: 16px;
+      line-height: 24px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 2px 12px;
+      border-radius: 5px;
+      user-select: none;
+
+    }
+    #audioButton {
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      z-index: 10;
+      font-size: 30px;
+      cursor: pointer;
+      transition: transform 0.01s ease-in-out;
+    -webkit-app-region: no-drag;
+    user-select: none;
+
+
+    }
+
+    #audioMenu {
+      position: absolute;
+      user-select: none;
+      top: 60px;
+      left: 20px;
+      z-index: 10;
+      background-color: white;
+      border-radius: 5px;
+    -webkit-app-region: no-drag;
+
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      padding: 8px 0;
+    }
+
+    .audio-source {
+        font-size: 14px;
+        line-height: 24px;
+        padding:4px 12px;
+        overflow:hidden;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        transition: all 0.2s linear;
+        background-color: #FFF;
+
+    }
+    .audio-source:hover {
+        background-color: #FFE2EB;
+    }
+
+  </style>
+</head>
+<body>
+    <select id="audioSourceSelect" style="display: none;"></select>
+
+  <canvas id="recordingCanvas" style="display: none;" width="1280" height="720"></canvas>
+  <video id="webcam" autoplay playsinline></video>
+  <div id="audioButton">🔊</div>
+  <div id="audioMenu"></div>
+  <div id="controls">
+    <button id="startBtn">Start Recording</button>
+    <button id="stopBtn" disabled>Stop</button>
+    <span id="timer" style="display: none;">00:00</span>
+  </div>
+
+  <button id="closeBtn">X</button>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
