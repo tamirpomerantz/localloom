@@ -1,46 +1,73 @@
+<!-- 
+ TODO:
+timer in button
+icon for audio
+stroke around audio button for volume
+icon for close
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+    /* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap'); */
 
+    @font-face {
+      font-family: 'DM Sans';
+      font-style: normal;
+      font-weight: 400;
+      src: local(''),
+        url('DMSans-Regular.woff2') format('woff2');
+    }
 
-    body, html {
-        font-family: "DM Sans", sans-serif;
-        font-optical-sizing: auto;
+    @font-face {
+      font-family: 'DM Sans';
+      font-style: normal;
+      font-weight: 700;
+      src: local(''),
+        url('DMSans-SemiBold.woff2') format('woff2');
+    }
+
+    body,
+    html {
+      font-family: "DM Sans", Helvetica, Arial, sans-serif;
+      font-optical-sizing: auto;
 
       margin: 0;
       padding: 0;
       overflow: hidden;
       height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
     }
 
     #webcam {
       position: absolute;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;       
+      object-fit: cover;
       pointer-events: none;
-      -webkit-app-region: drag; 
+      -webkit-app-region: drag;
       border-radius: 20px;
-      transform: scaleX(-1); /* Flip the webcam horizontally */
+      transform: scaleX(-1);
+      /* Flip the webcam horizontally */
     }
 
     #controls {
-        position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translate(-50%);
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    -webkit-app-region: no-drag;
-    user-select: none;
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      -webkit-app-region: no-drag;
+      user-select: none;
 
-    flex-direction: column-reverse;
+      flex-direction: column-reverse;
     }
 
     button {
@@ -69,21 +96,63 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      height: 24px;
-    width: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+      height: 32px;
+      width: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       z-index: 10;
-      background-color: #121212;
-      color: white;
-      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.12);
       cursor: pointer;
-      font-size: 12px;
+      padding: 0;
       border-radius: 50%;
       border: none;
-      -webkit-app-region: no-drag;  
+      -webkit-app-region: no-drag;
     }
+
+
+
+    #startBtn {
+      font-family: "DM Sans", Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      background-color: #FFF;
+      color: #060503;
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px 12px 16px;
+      border-radius: 32px;
+      align-items: center;
+      transform: scale(1.);
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 8px 46px 4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+
+    }
+
+    #startBtn:hover {
+      background-color: #FFE2EB;
+    }
+
+    #startBtn.stop {
+      transform: scale(1.1);
+      border-radius: 16px;
+    }
+
+    #startBtn .icon-start {
+      border-radius: 50%;
+      background-color: #FF590E;
+      width: 17px;
+      height: 17px;
+      transition: all .2s ease-out;
+    }
+
+    #startBtn.stop .icon-start {
+      border-radius: 2px;
+      background-color: #F81E00;
+      width: 16px;
+      height: 16px;
+    }
+
+
 
     #timer {
       font-size: 16px;
@@ -95,18 +164,28 @@
       user-select: none;
 
     }
+
     #audioButton {
       position: absolute;
       top: 12px;
-      left: 20px;
+      left: 12px;
       z-index: 10;
-      font-size: 30px;
+      background-color: rgba(0, 0, 0, 0.12);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      padding:  0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      transition: transform 0.01s ease-in-out;
-    -webkit-app-region: no-drag;
-    user-select: none;
+      -webkit-app-region: no-drag;
+      transition: all 0.2s linear;
+      user-select: none;
+    }
 
-
+    #audioButton:hover, #closeBtn:hover {
+      background-color: rgba(0, 0, 0, 0.3);
     }
 
     #audioMenu {
@@ -117,7 +196,7 @@
       z-index: 10;
       background-color: white;
       border-radius: 5px;
-    -webkit-app-region: no-drag;
+      -webkit-app-region: no-drag;
 
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
       display: none;
@@ -125,37 +204,140 @@
     }
 
     .audio-source {
-        font-size: 14px;
-        line-height: 24px;
-        padding:4px 12px;
-        overflow:hidden;
-        text-wrap: nowrap;
-        text-overflow: ellipsis;
-        transition: all 0.2s linear;
-        background-color: #FFF;
+      font-size: 14px;
+      line-height: 24px;
+      padding: 4px 12px;
+      overflow: hidden;
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      transition: all 0.2s linear;
+      background-color: #FFF;
 
     }
+
     .audio-source:hover {
-        background-color: #FFE2EB;
+      background-color: #FFE2EB;
     }
 
+    .loader-fullscreen {
+      display: none;
+      opacity: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.9);
+      transition: all 0.5s linear;
+      flex-direction: column;
+      color: white;
+      font-size: 18px;
+    }
+
+    .loader-fullscreen.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    #svg-container {
+      margin-bottom: 20px;
+    }
+
+    /* FadeIn */
+    @keyframes FadeIn-ani-Star-1-animation-ani-Star-1-1 {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Spin */
+    @keyframes Spin-ani-Star-1-animation-ani-Star-1-2 {
+      0% {
+        opacity: 1;
+        transform: rotate(0deg);
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+      }
+
+      100% {
+        opacity: 1;
+        transform: rotate(180deg);
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+      }
+    }
+
+    #ani-Star-1 {
+      opacity: 0;
+      animation: FadeIn-ani-Star-1-animation-ani-Star-1-1 0.5s ease-in 0s forwards, Spin-ani-Star-1-animation-ani-Star-1-2 2s cubic-bezier(0.86, 0, 0.07, 1) 0.5s alternate infinite;
+    }
   </style>
 </head>
+
 <body>
-    <select id="audioSourceSelect" style="display: none;"></select>
+  <div class="loader-fullscreen">
+    <div id="svg-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="193" height="146" viewBox="0 0 193 146" fill="none">
+        <g id="a">
+          <path id="ani-Star-1"
+            d="M96 13L97.9845 62.3839L117.674 17.0517L101.685 63.8177L136.422 28.6595L104.619 66.4915L149.71 46.2557L106.388 70.0444L155.744 67.4639L106.754 73.9965L153.71 89.4198L105.668 77.814L143.881 109.158L103.276 80.9813L127.586 124.013L99.9014 83.0707L107.025 131.978L96 83.8L84.975 131.978L92.0986 83.0707L64.4141 124.013L88.7241 80.9813L48.119 109.158L86.3322 77.814L38.2905 89.4198L85.2461 73.9965L36.256 67.4639L85.6123 70.0444L42.2902 46.2557L87.3814 66.4915L55.5783 28.6595L90.3145 63.8177L74.3255 17.0517L94.0155 62.3839L96 13Z"
+            stroke="white" stroke-width="2" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+    </div>
+    <span>Saving...</span>
+  </div>
+  <select id="audioSourceSelect" style="display: none;"></select>
 
   <canvas id="recordingCanvas" style="display: none;" width="1280" height="720"></canvas>
   <video id="webcam" autoplay playsinline></video>
-  <div id="audioButton">🔊</div>
+  <div id="audioButton">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="sound">
+        <path id="Vector (Stroke)" fill-rule="evenodd" clip-rule="evenodd"
+          d="M9.98875 2.81473C10.3425 2.74449 10.7092 2.78064 11.0425 2.91863C11.3758 3.05662 11.6608 3.29028 11.8615 3.59015C12.0622 3.89002 12.1696 4.24266 12.1701 4.60356V19.3908C12.1701 19.391 12.1701 19.3912 12.1701 19.3914C12.1705 19.7528 12.0636 20.1063 11.8631 20.407C11.6625 20.7078 11.3771 20.9422 11.0432 21.0806C10.7093 21.2191 10.3418 21.2552 9.98732 21.1846C9.63285 21.1139 9.30729 20.9396 9.05191 20.6837L5.62579 17.256L5.62356 17.2538C5.595 17.225 5.561 17.2022 5.52353 17.1867C5.48606 17.1712 5.44587 17.1632 5.40531 17.1633L5.40205 17.1634H2.95478C2.39136 17.1634 1.85095 16.9395 1.45248 16.541C1.05399 16.1424 0.830078 15.6018 0.830078 15.0381V8.95947C0.830078 8.39573 1.05399 7.85513 1.45248 7.45659C1.85095 7.05804 2.39136 6.83419 2.95478 6.83419H5.40205C5.40276 6.83419 5.40347 6.83419 5.40418 6.83419L5.40531 6.8342C5.44588 6.83431 5.48606 6.82638 5.52353 6.81086C5.561 6.79533 5.595 6.77253 5.62356 6.74379C5.62438 6.74297 5.6252 6.74215 5.62602 6.74133L9.0545 3.31333C9.30986 3.05845 9.63495 2.88496 9.98875 2.81473ZM9.94655 5.56632L7.20034 8.31213C7.19987 8.31261 7.1994 8.31308 7.19893 8.31355C6.96322 8.55034 6.68296 8.73808 6.37433 8.86595C6.06566 8.99383 5.73473 9.05929 5.40064 9.05856H3.05361V14.939H5.40064C5.73473 14.9383 6.06566 15.0037 6.37433 15.1316C6.68309 15.2595 6.96346 15.4474 7.19923 15.6843C7.1996 15.6847 7.19997 15.685 7.20034 15.6854L9.94655 18.4329V5.56632Z"
+          fill="black" />
+        <path id="l1" fill-rule="evenodd" clip-rule="evenodd"
+          d="M15.4001 8.20006C15.8419 7.86869 16.4687 7.95823 16.8001 8.40006C17.579 9.43864 18.0001 10.7018 18.0001 12.0001C18.0001 13.2983 17.579 14.5615 16.8001 15.6001C16.4687 16.0419 15.8419 16.1314 15.4001 15.8001C14.9582 15.4687 14.8687 14.8419 15.2001 14.4001C15.7193 13.7077 16.0001 12.8655 16.0001 12.0001C16.0001 11.1346 15.7193 10.2924 15.2001 9.60006C14.8687 9.15823 14.9582 8.53143 15.4001 8.20006Z"
+          fill="black" />
+        <path id="l2" fill-rule="evenodd" clip-rule="evenodd"
+          d="M18.6571 4.92913C19.0477 4.5386 19.6808 4.5386 20.0714 4.92912C21 5.85771 21.7366 6.9601 22.2391 8.17337C22.7417 9.38663 23.0003 10.687 23.0003 12.0002C23.0003 13.3135 22.7417 14.6138 22.2391 15.8271C21.7366 17.0404 21 18.1428 20.0714 19.0713C19.6808 19.4619 19.0477 19.4619 18.6571 19.0713C18.2666 18.6808 18.2666 18.0476 18.6572 17.6571C19.4 16.9143 19.9893 16.0323 20.3914 15.0617C20.7934 14.0911 21.0003 13.0508 21.0003 12.0002C21.0003 10.9496 20.7934 9.90935 20.3914 8.93874C19.9893 7.96813 19.4 7.08621 18.6572 6.34334C18.2666 5.95282 18.2666 5.31965 18.6571 4.92913Z"
+          fill="black" />
+      </g>
+    </svg>
+
+
+  </div>
   <div id="audioMenu"></div>
   <div id="controls">
-    <button id="startBtn">Start Recording</button>
-    <button id="stopBtn" disabled>Stop</button>
+    <button id="startBtn">
+      <div class="icon-start"></div>
+      <div class="label">Start Recording</div>
+    </button>
+    <!-- <button id="stopBtn" disabled>Stop</button> -->
     <span id="timer" style="display: none;">00:00</span>
   </div>
 
-  <button id="closeBtn">X</button>
+  <button id="closeBtn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289Z"
+        fill="black" />
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+        fill="black" />
+    </svg>
+
+  </button>
 
   <script src="renderer.js"></script>
 </body>
+
 </html>

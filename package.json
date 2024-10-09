@@ -1,27 +1,33 @@
 {
-  "name": "localoom",
+  "name": "loco",
   "version": "1.0.0",
-  "description": "Record the screen and yourself",
+  "description": "Record the screen and yourself, saved locally",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"
   },
   "build": {
-    "appId": "com.tamirp.yourapp",
+    "appId": "com.tamirp.loco",
     "mac": {
       "target": [
         {
           "target": "dmg",
-          "arch": ["arm64", "x64"]  
+          "arch": [
+            "arm64",
+            "x64"
+          ]
         },
         {
           "target": "zip",
-          "arch": ["arm64", "x64"]
+          "arch": [
+            "arm64",
+            "x64"
+          ]
         }
       ],
       "category": "public.app-category.productivity",
-      "icon": "icons.icns"  
+      "icon": "icons.icns"
     },
     "files": [
       "build/**/*",
@@ -31,10 +37,16 @@
       "index.html",
       "node_modules/**/*"
     ],
-    "asar": true 
+    "asar": true
   },
   "devDependencies": {
     "electron": "^X.X.X",
     "electron-builder": "^X.X.X"
+  },
+  "dependencies": {
+    "@ffmpeg/core": "^0.12.6",
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "ffmpeg-static-electron": "^2.0.3",
+    "fluent-ffmpeg": "^2.1.3"
   }
 }
