@@ -150,6 +150,12 @@ async function getScreenStream() {
 async function getWebcamStream() {
   const webcamStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
   webcamVideo.srcObject = webcamStream; // Display webcam stream in the video element
+  
+  // Add event listener to add .no-bg class after stream has loaded
+  webcamVideo.addEventListener('loadedmetadata', () => {
+    document.body.classList.add('no-bg');
+  });
+
   return webcamStream;
 }
 
